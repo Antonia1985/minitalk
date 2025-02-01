@@ -15,15 +15,15 @@
 
 void encode_and_send_bits(char ch, pid_t servers_pid)
 {
-    int i = 0;
-    while (i < 8)
+    int i = 7;
+    while (i >= 0)
     {
         if (ch & (1 << i))
         kill(servers_pid, SIGUSR2); //1
         else 
         kill(servers_pid, SIGUSR1); //0
 
-        i++;
+        i--;
         usleep(100);
     }
 }

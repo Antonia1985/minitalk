@@ -10,30 +10,27 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "minitalk.h"
-
-void handle_signal (int signum)
+void handle_signal (int signum, siginfo_t *info, void *context)
 {
     static int bit_counter = 0;
     static char ch = 0;
 
-    if (signum == SIGUSR1)
-    ch = ch << 1;
-    else if (signum == SIGUSR2)
-    ch = ch | 1;
+    (void)info;    // Prevent unused warning
+    (void)context; // Prevent unused warning
 
-    if (bit_counter == 7)
+    
+    ch = ch << 1;
+    if (signum == SIGUSR2)
+    ch |= 1;
+    
+    bit_counter++;
+    if (bit_counter == 8)
     {
         write(1, &ch, 1);
         bit_counter = 0;
         ch = 0;
     }
-    else
-    {
-        bit_counter++;
-    }
-    
+        
 }
 
 int main()
@@ -41,11 +38,11 @@ int main()
     pid_t servers_pid = getpid();
     ft_printf("PID: %d\n", servers_pid);
 
-    struct sigaction sa;
-    
-    sa.sa_handler = handle_signal;
-    sa.sa_flags = 0;
+    struct sigaction sa;    
+    sa.sa_sigaction = handle_signal;
+    sa.sa_flags = SA_SIGINFO;
     sigemptyset(&sa.sa_mask);
+
     sigaction(SIGUSR1, &sa, NULL);
     sigaction(SIGUSR2, &sa, NULL);
 

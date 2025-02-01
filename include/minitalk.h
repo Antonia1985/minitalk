@@ -21,6 +21,6 @@ int     main(int ac, char **av);
 void encode_and_send_bits(char ch, pid_t servers_pid);
 
 int     main();
-void handle_signal (int signum);
+void handle_signal (int signum, siginfo_t *info, void *context);
 
 #endif

@@ -11,14 +11,14 @@
 /* ************************************************************************** */
 
 #ifndef MINITALK_H
-#define MINITALK_H
+# define MINITALK_H
 
-#include <unistd.h>
-#include <signal.h>
-#include <sys/types.h>
+# include <signal.h>
+# include <sys/types.h>
+# include <unistd.h>
 
-void encode_and_send_bits(char ch, pid_t servers_pid);
-void handle_signal (int signum, siginfo_t *info, void *context);
-void response_handler(int signum);
+void	encode_and_send_bits(char ch, pid_t servers_pid);
+void	handle_signal(int signum, siginfo_t *info, void *context);
+void	response_handler(int signum, siginfo_t *info, void *context);
 
 #endif

@@ -15,11 +15,11 @@
 
 void	handle_signal(int signum, siginfo_t *info, void *context)
 {
-	static int	bit_counter  = 0;
+	static int	bit_counter = 0;
 	static char	ch = 0;
-	pid_t	client_pid= info -> si_pid;
-	
-	(void)info;
+	pid_t		client_pid;
+
+	client_pid = info->si_pid;
 	(void)context;
 	ch = ch << 1;
 	if (signum == SIGUSR2)
@@ -39,7 +39,7 @@ void	handle_signal(int signum, siginfo_t *info, void *context)
 
 int	main(void)
 {
-	pid_t	servers_pid;
+	pid_t				servers_pid;
 	struct sigaction	sa;
 
 	servers_pid = getpid();
